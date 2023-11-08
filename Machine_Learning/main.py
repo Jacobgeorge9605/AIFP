@@ -47,6 +47,6 @@ y_pred = classifier.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
-image_path = "testModel.jpeg"  # Replace with the path to your image
+image_path = "testModel.jpeg"  
 predicted_animal = classify_new_image(image_path, classifier, categories)
 print("Predicted Animal:", predicted_animal)
