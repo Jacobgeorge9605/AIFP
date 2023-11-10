@@ -12,7 +12,7 @@ Here firstly PIR Sensor detects the motion of the animal. Once motion is detecte
 	b. Scikit Learn - pip install scikit-learn <br>
  	c. Open CV Python - pip install opencv-python <br>
 3. Clone the Repo<br>
-   Open Terminal -> "git clone git@github.com:Jacobgeorge9605/AIFP.git" <br>
+   Open Terminal -> `git clone git@github.com:Jacobgeorge9605/AIFP.git` <br>
 
 ## How to add Dataset
 1. If you want to detect a new animal, (here animals are represented using classes), inside ./Dataset create a folder with classname (animal name).<br>
