@@ -82,21 +82,34 @@ def processing():
     y_pred = classifier.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", round(accuracy * 100), "%")
+    input_directory = "./Input"
+    files = [f for f in os.listdir(input_directory) if os.path.isfile(os.path.join(input_directory, f))]
+    files.sort(key=lambda x: os.path.getmtime(os.path.join(input_directory, x)), reverse=True)
+    if files:
+        most_recent_file = files[0]
+        # print("Most recently added file:", most_recent_file)
+    else:
+        print("No files found in the input directory.")
+
+    image_path = f"Input/{most_recent_file}"
+    predicted_animal = classify_new_image(image_path, classifier, categories)
+    print("Filename:", image_path)
+    print("Predicted Animal:", predicted_animal)
 
     # image_path = "testModel4.jpg"  
-    while True:
-        image_path = input("Enter the relative path of the image to test (or 'exit' to quit): ")
+    # while True:
+    #     image_path = input("Enter the relative path of the image to test (or 'exit' to quit): ")
         
-        if image_path.lower() == 'exit':
-            break 
+    #     if image_path.lower() == 'exit':
+    #         break 
         
-        predicted_animal = classify_new_image(image_path, classifier, categories)
+    #     predicted_animal = classify_new_image(image_path, classifier, categories)
         
-        print("Filename:", image_path)
-        print("Predicted Animal:", predicted_animal)
+    #     print("Filename:", image_path)
+    #     print("Predicted Animal:", predicted_animal)
         
-        test_again = input("Do you want to test another image? (yes or no): ")
+    #     test_again = input("Do you want to test another image? (yes or no): ")
         
-        if test_again.lower() != 'yes':
-            break  
+    #     if test_again.lower() != 'yes':
+    #         break  
 processing()
