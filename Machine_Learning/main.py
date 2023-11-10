@@ -100,3 +100,23 @@ def processing():
     except Exception:
         pass
 processing()
+
+
+## Testing Purpose
+
+    # image_path = "testModel4.jpg"  
+    # while True:
+    #     image_path = input("Enter the relative path of the image to test (or 'exit' to quit): ")
+        
+    #     if image_path.lower() == 'exit':
+    #         break 
+        
+    #     predicted_animal = classify_new_image(image_path, classifier, categories)
+        
+    #     print("Filename:", image_path)
+    #     print("Predicted Animal:", predicted_animal)
+        
+    #     test_again = input("Do you want to test another image? (yes or no): ")
+        
+    #     if test_again.lower() != 'yes':
+    #         break  
