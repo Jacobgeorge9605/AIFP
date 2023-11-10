@@ -8,3 +8,10 @@ Here firstly PIR Sensor detects the motion of the animal. Once motion is detecte
 1. Install Following Libraries <br>
 	a. NumPY - pip install numpy <br>
 	b. Scikit Learn - pip install scikit-learn <br>
+
+# Team Members
+	We, a team of 4 from LBS College of Engineering, Kasaragod worked on this project.
+1. Jacob George (CSE)
+2. Pratheek Rao K B (CSE)
+3. Nithish Nayak (EC)
+4. Akshay (CSE)
