@@ -28,6 +28,7 @@ def classify_new_image(image_path, classifier, categories, threshold=0.7):
     probabilities = classifier.predict_proba(new_image)[0]
     
     max_probability = max(probabilities)
+    print(max_probability)
     if max_probability < threshold:
         return "Other"
     
@@ -95,6 +96,10 @@ def processing():
     predicted_animal = classify_new_image(image_path, classifier, categories)
     print("Filename:", image_path)
     print("Predicted Animal:", predicted_animal)
+
+
+
+    # Testing Purpose
 
     # image_path = "testModel4.jpg"  
     # while True:
