@@ -5,7 +5,6 @@ import os
 import cv2
 import numpy as np
 import joblib  
-
 def load_and_preprocess_image(image_path):
     image = cv2.imread(image_path)
     image = cv2.resize(image, (150, 150))
@@ -57,7 +56,6 @@ def processing():
     data = np.array(data).reshape(-1, 150 * 150 * 3)
     labels = np.array(labels)
 
-
     model_filename = "animal_classifier_model.pkl"
     if not os.path.isfile(model_filename):
         print("Model file doesn't exist. Training a new model...")
@@ -83,38 +81,22 @@ def processing():
     y_pred = classifier.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", round(accuracy * 100), "%")
-    input_directory = "./Input"
+
+    input_directory = "Input"  # Assuming Input is in the same directory as the script
+    input_directory = os.path.join(os.path.dirname(__file__), input_directory)
     files = [f for f in os.listdir(input_directory) if os.path.isfile(os.path.join(input_directory, f))]
     files.sort(key=lambda x: os.path.getmtime(os.path.join(input_directory, x)), reverse=True)
+    
     if files:
         most_recent_file = files[0]
-        # print("Most recently added file:", most_recent_file)
     else:
         print("No files found in the input directory.")
 
-    image_path = f"Input/{most_recent_file}"
-    predicted_animal = classify_new_image(image_path, classifier, categories)
-    print("Filename:", image_path)
-    print("Predicted Animal:", predicted_animal)
-
-
-
-    # Testing Purpose
-
-    # image_path = "testModel4.jpg"  
-    # while True:
-    #     image_path = input("Enter the relative path of the image to test (or 'exit' to quit): ")
-        
-    #     if image_path.lower() == 'exit':
-    #         break 
-        
-    #     predicted_animal = classify_new_image(image_path, classifier, categories)
-        
-    #     print("Filename:", image_path)
-    #     print("Predicted Animal:", predicted_animal)
-        
-    #     test_again = input("Do you want to test another image? (yes or no): ")
-        
-    #     if test_again.lower() != 'yes':
-    #         break  
+    try:
+        image_path = os.path.join(input_directory, most_recent_file)
+        predicted_animal = classify_new_image(image_path, classifier, categories)
+        print("Filename:", image_path)
+        print("Predicted Animal:", predicted_animal)
+    except Exception:
+        pass
 processing()
