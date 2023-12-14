@@ -21,38 +21,47 @@ def save_classifier(classifier, model_filename):
 def load_classifier(model_filename):
     return joblib.load(model_filename)
 
-def classify_new_image(image_path, classifier, categories, threshold=0.7):
+
+def classify_new_image(image_path, classifier, categories, threshold=0.5):
     new_image = load_and_preprocess_image(image_path)
     new_image = new_image.reshape(1, -1)
     probabilities = classifier.predict_proba(new_image)[0]
     
     max_probability = max(probabilities)
     print(max_probability)
+    
     if max_probability < threshold:
-        return "Other"
+        return "Unknown"  # Return a generic label for unknown classes
     
     prediction = classifier.predict(new_image)[0]
-    predicted_category = categories[prediction]
+    
+    if prediction < len(categories):
+        predicted_category = categories[prediction]
+    else:
+        predicted_category = "Unknown"  # Return "Unknown" for out-of-bounds predictions
+    
     return predicted_category
-
 def processing():
-    categories = ["Elephants", "Langurs", "Monkeys", "Nilgai", "Peafowl", "Porcupines", "Spotted_Deer", "Wild_Boars"]
+    # categories = ["Elephants", "Langurs", "Monkeys", "Nilgai", "Peafowl", "Porcupines", "Spotted_Deer", "Wild_Boars","Humans"]
+    categories= [ "Elephants", "Humans", "Wild_Boars" ]
 
     data = []
     labels = []
 
     for category in categories:
-        path = os.path.join("Dataset", category)
-        class_num = categories.index(category)
-        for img in os.listdir(path):
-            try:
-                img_path = os.path.join(path, img)
-                img_array = load_and_preprocess_image(img_path)
-                data.append(img_array)
-                labels.append(class_num)
-            except Exception as e:
-                pass
-
+        try:
+            path = os.path.join("Dataset", category)
+            class_num = categories.index(category)
+            for img in os.listdir(path):
+                try:
+                    img_path = os.path.join(path, img)
+                    img_array = load_and_preprocess_image(img_path)
+                    data.append(img_array)
+                    labels.append(class_num)
+                except Exception as e:
+                    pass
+        except:
+            pass
     data = np.array(data).reshape(-1, 150 * 150 * 3)
     labels = np.array(labels)
 
@@ -100,23 +109,3 @@ def processing():
     except Exception:
         pass
 processing()
-
-
-## Testing Purpose
-
-    # image_path = "testModel4.jpg"  
-    # while True:
-    #     image_path = input("Enter the relative path of the image to test (or 'exit' to quit): ")
-        
-    #     if image_path.lower() == 'exit':
-    #         break 
-        
-    #     predicted_animal = classify_new_image(image_path, classifier, categories)
-        
-    #     print("Filename:", image_path)
-    #     print("Predicted Animal:", predicted_animal)
-        
-    #     test_again = input("Do you want to test another image? (yes or no): ")
-        
-    #     if test_again.lower() != 'yes':
-    #         break  
