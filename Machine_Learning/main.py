@@ -5,6 +5,22 @@ import os
 import cv2
 import numpy as np
 import joblib  
+# import joblib  
+import pygame
+import time
+
+def play_music(music_filename, duration=6):
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.load(music_filename)
+        pygame.mixer.music.play()
+        time.sleep(duration)
+    except Exception as e:
+        # print(f"Error playing music: {e}")
+        pass
+    finally:
+        pygame.mixer.music.stop()
+            
 def load_and_preprocess_image(image_path):
     image = cv2.imread(image_path)
     image = cv2.resize(image, (150, 150))
@@ -31,22 +47,37 @@ def classify_new_image(image_path, classifier, categories, threshold=0.5):
     # print(max_probability)
     
     if max_probability < threshold:
-        return "Unknown"  # Return a generic label for unknown classes
+        return "Unknown"  
     
     prediction = classifier.predict(new_image)[0]
     
     if prediction < len(categories):
         predicted_category = categories[prediction]
     else:
-        predicted_category = "Unknown"  # Return "Unknown" for out-of-bounds predictions
+        predicted_category = "Unknown" 
     
-    return predicted_category,prediction*100
+    return predicted_category,max_probability
 def processing():
     # categories = ["Elephants", "Langurs", "Monkeys", "Nilgai", "Peafowl", "Porcupines", "Spotted_Deer", "Wild_Boars","Humans"]
     categories= [ "Elephants", "Humans", "Wild_Boars" ]
 
     data = []
     labels = []
+
+    animalData = {
+        "Wild_Boars": {
+            "sound": "music/WildBoar_Sound.mp3"
+        },
+        "Elephants": {
+            "sound": "music/Elephant_Sound.mp3"
+        },
+
+        "Humans": {
+            "sound": None
+        }
+    }
+
+    
 
     for category in categories:
         try:
@@ -104,8 +135,13 @@ def processing():
     try:
         image_path = os.path.join(input_directory, most_recent_file)
         predicted_animal = classify_new_image(image_path, classifier, categories)
-        print("Filename:", image_path)
-        print("Predicted Animal:", predicted_animal[0], " ",predicted_animal[1],"% Surety")
+        print("Given Image Filename:", image_path)
+        print("Predicted Animal:", predicted_animal[0])
+        sound_path = animalData[f"{predicted_animal[0]}"]["sound"]
+        try:
+            play_music(sound_path)
+        except:
+            pass
     except Exception:
         pass
 processing()
