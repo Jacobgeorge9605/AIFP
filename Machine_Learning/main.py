@@ -59,7 +59,7 @@ def classify_new_image(image_path, classifier, categories, threshold=0.5):
     return predicted_category,max_probability
 def processing():
     # categories = ["Elephants", "Langurs", "Monkeys", "Nilgai", "Peafowl", "Porcupines", "Spotted_Deer", "Wild_Boars","Humans"]
-    categories= [ "Elephants", "Humans", "Wild_Boars" ]
+    categories= [ "Elephants", "Wild_Boars" ]
 
     data = []
     labels = []
@@ -72,9 +72,9 @@ def processing():
             "sound": "music/Elephant_Sound.mp3"
         },
 
-        "Humans": {
-            "sound": None
-        }
+        # "Humans": {
+        #     "sound": None
+        # }
     }
 
     
