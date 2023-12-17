@@ -28,7 +28,7 @@ def classify_new_image(image_path, classifier, categories, threshold=0.5):
     probabilities = classifier.predict_proba(new_image)[0]
     
     max_probability = max(probabilities)
-    print(max_probability)
+    # print(max_probability)
     
     if max_probability < threshold:
         return "Unknown"  # Return a generic label for unknown classes
@@ -40,7 +40,7 @@ def classify_new_image(image_path, classifier, categories, threshold=0.5):
     else:
         predicted_category = "Unknown"  # Return "Unknown" for out-of-bounds predictions
     
-    return predicted_category
+    return predicted_category,prediction*100
 def processing():
     # categories = ["Elephants", "Langurs", "Monkeys", "Nilgai", "Peafowl", "Porcupines", "Spotted_Deer", "Wild_Boars","Humans"]
     categories= [ "Elephants", "Humans", "Wild_Boars" ]
@@ -89,7 +89,7 @@ def processing():
 
     y_pred = classifier.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
-    print("Accuracy:", round(accuracy * 100), "%")
+    # print("Accuracy:", round(accuracy * 100), "%")
 
     input_directory = "Input"  # Assuming Input is in the same directory as the script
     input_directory = os.path.join(os.path.dirname(__file__), input_directory)
@@ -105,7 +105,7 @@ def processing():
         image_path = os.path.join(input_directory, most_recent_file)
         predicted_animal = classify_new_image(image_path, classifier, categories)
         print("Filename:", image_path)
-        print("Predicted Animal:", predicted_animal)
+        print("Predicted Animal:", predicted_animal[0], " ",predicted_animal[1],"% Surety")
     except Exception:
         pass
 processing()
